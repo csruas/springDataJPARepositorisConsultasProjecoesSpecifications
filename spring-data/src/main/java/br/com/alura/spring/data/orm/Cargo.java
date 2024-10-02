@@ -1,9 +1,12 @@
 package br.com.alura.spring.data.orm;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -14,6 +17,8 @@ public class Cargo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
+	@OneToMany(mappedBy = "cargo")
+	private List<Funcionario> funcionario;
 
 	public Integer getId() {
 		return id;
@@ -35,8 +40,5 @@ public class Cargo {
 	public String toString() {
 		return "Cargo [id=" + id + ", descricao=" + descricao + "]";
 	}
-	
-	
-	
 
 }
