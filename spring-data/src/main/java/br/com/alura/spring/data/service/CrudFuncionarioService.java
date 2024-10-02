@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import org.hibernate.query.Page;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -157,7 +155,7 @@ public class CrudFuncionarioService {
 		System.out.println("Qual pagina voce deseja visualizar");
 		Integer page = scanner.nextInt();
 		
-		PageRequest pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "nome"));
+		PageRequest pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "salario"));
 		org.springframework.data.domain.Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
 		
 		System.out.println(funcionarios);
