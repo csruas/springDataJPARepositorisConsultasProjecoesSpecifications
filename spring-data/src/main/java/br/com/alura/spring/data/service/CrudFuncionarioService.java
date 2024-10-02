@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
+import org.hibernate.query.Page;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.alura.spring.data.orm.Cargo;
@@ -53,7 +57,7 @@ public class CrudFuncionarioService {
 				atualizar(scanner);
 				break;
 			case 3:
-				visualizar();
+				visualizar(scanner);
 				break;
 			case 4:
 				deletar(scanner);
@@ -94,7 +98,7 @@ public class CrudFuncionarioService {
         funcionario.setCargo(cargo.get());
         funcionario.setUnidadeTrabalhos(unidades);
         
-        funcionarioRepository.save(funcionario);
+//        funcionarioRepository.save(funcionario);
         System.out.println("Salvo");
 	}
 	
@@ -145,19 +149,27 @@ public class CrudFuncionarioService {
         Optional<Cargo> cargo = cargoRepository.findById(cargoId);
         funcionario.setCargo(cargo.get());
 
-        funcionarioRepository.save(funcionario);
+//        funcionarioRepository.save(funcionario);
         System.out.println("Alterado");
 	}
 	
-	private void visualizar() {
-		Iterable<Funcionario> funcionarios = funcionarioRepository.findAll();
+	private void visualizar(Scanner scanner) {
+		System.out.println("Qual pagina voce deseja visualizar");
+		Integer page = scanner.nextInt();
+		
+		PageRequest pageable = PageRequest.of(page, 5, Sort.by(Sort.Direction.ASC, "nome"));
+		org.springframework.data.domain.Page<Funcionario> funcionarios = funcionarioRepository.findAll(pageable);
+		
+		System.out.println(funcionarios);
+		System.out.println("Pagina atual " + funcionarios.getNumber());
+		System.out.println("Total elemento " + funcionarios.getTotalElements());
 		funcionarios.forEach(funcionario -> System.out.println(funcionario));
 	}
 	
 	private void deletar(Scanner scanner) {
 		System.out.println("Id");
 		int id = scanner.nextInt();
-		funcionarioRepository.deleteById(id);
+//		funcionarioRepository.deleteById(id);
 		System.out.println("Deletado");
 	}
 	
